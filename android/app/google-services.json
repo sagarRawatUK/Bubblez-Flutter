@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "418465925700",
+    "project_id": "bubblez-35de5",
+    "storage_bucket": "bubblez-35de5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418465925700:android:4de8179d63dddf96de8a11",
+        "android_client_info": {
+          "package_name": "com.flutter.bubblez"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418465925700-o1gjigkr4q58avcstth688p7920e4tvs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutter.bubblez",
+            "certificate_hash": "53e8655dc21e56372e871ec7b42dd1f053db82ba"
+          }
+        },
+        {
+          "client_id": "418465925700-2b6uigp8fh53gotljfqd05anrc9kfpvn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAI_TQE4Wch7EMhc1sZcpiKi-1mqa9GLxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418465925700-2b6uigp8fh53gotljfqd05anrc9kfpvn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
