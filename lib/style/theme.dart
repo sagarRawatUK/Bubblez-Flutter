@@ -1,24 +1,19 @@
+import 'package:bubblez/style/colors.dart';
 import 'package:flutter/material.dart';
 
-import 'colors.dart';
-
-ThemeData UiThemeData() {
-  return ThemeData(
-      textTheme: TextTheme(
-        bodyText1: TextStyle(
-          fontSize: 15,
-          color: whiteColor,
-        ),
-        bodyText2: TextStyle(
-          fontSize: 20,
-          color: whiteColor,
-        ),
-        subtitle1: TextStyle(
-          fontSize: 13,
-          color: greyColor,
-        ),
-      ),
-      accentColor: blueColor,
-      fontFamily: 'Poppins',
-      canvasColor: Colors.transparent);
-}
+ThemeData themeData = ThemeData(
+  primaryColor: primaryColor,
+  fontFamily: 'Poppins',
+  textTheme: TextTheme(
+    headline6: TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+    ),
+    button: TextStyle(
+      color: Colors.white,
+      fontSize: 16,
+    ),
+  ),
+  iconTheme: IconThemeData(color: Colors.white),
+  primaryIconTheme: IconThemeData(color: Colors.black, size: 30),
+);
