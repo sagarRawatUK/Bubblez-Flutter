@@ -1,11 +1,12 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:bubblez/auth/authMethods/Authentication.dart';
 import 'package:bubblez/auth/login/login.dart';
-import 'package:bubblez/home/my_profile_screen.dart';
+import 'package:bubblez/home/profile/my_profile_screen.dart';
 import 'package:bubblez/home/profile/edit_profile.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -115,10 +116,11 @@ class MyDrawer extends StatelessWidget {
                             SizedBox(height: 30),
                             GestureDetector(
                               onTap: () {
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) => Login()));
+                                Phoenix.rebirth(context);
+                                // Navigator.of(context).pop();
+                                // Navigator.of(context).pushReplacement(
+                                //     MaterialPageRoute(
+                                //         builder: (context) => Login()));
                               },
                               child: Container(
                                 width: double.infinity,

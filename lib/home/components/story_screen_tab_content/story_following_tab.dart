@@ -1,7 +1,7 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:bubblez/home/components/story_screen_tab_content/story_full_view.dart';
-import 'package:bubblez/home/my_profile_screen.dart';
-import 'package:bubblez/home/user_profile.dart';
+import 'package:bubblez/home/profile/my_profile_screen.dart';
+import 'package:bubblez/home/userProfile/user_profile.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -50,8 +50,8 @@ class StoryFollowingTabScreen extends StatelessWidget {
                     left: 10,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => UserProfileScreen()));
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (_) => UserProfileScreen()));
                       },
                       child: CircleAvatar(
                         backgroundImage: AssetImage(

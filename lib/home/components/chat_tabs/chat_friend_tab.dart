@@ -2,7 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:animation_wrappers/animation_wrappers.dart';
-import 'package:bubblez/home/chat_screen.dart';
+import 'package:bubblez/home/chatroom/chat_screen.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:flutter/material.dart';
 

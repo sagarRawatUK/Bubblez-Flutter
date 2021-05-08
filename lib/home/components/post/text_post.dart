@@ -1,7 +1,9 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:bubblez/auth/authMethods/FirebaseOperations.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class TextPostScreen extends StatefulWidget {
   @override
@@ -43,8 +45,10 @@ class _TextPostScreenState extends State<TextPostScreen> {
                 children: [
                   FadedScaleAnimation(
                     CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/images/Layer1677.png'),
+                      backgroundImage: NetworkImage(
+                          Provider.of<FirebaseOperations>(context,
+                                  listen: false)
+                              .getInitUserImage),
                     ),
                   ),
                   SizedBox(width: 15),

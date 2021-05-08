@@ -1,8 +1,10 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:bubblez/home/components/post/create_post.dart';
+import 'package:bubblez/home/components/postOperations/uploadPost.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class UploadPhotoTab extends StatelessWidget {
   @override
@@ -17,26 +19,23 @@ class UploadPhotoTab extends StatelessWidget {
                 children: [
                   LayoutBuilder(
                     builder: (context, constraints) => Container(
-                      height: constraints.maxHeight,
-                      child: Image.asset(
-                        'assets/images/Layer884.png',
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
+                        height: constraints.maxHeight,
+                        child: Image.file(
+                            Provider.of<UploadPost>(context).uploadPostImage)),
                   ),
-                  Positioned(
-                    bottom: 10,
-                    left: 10,
-                    child: Icon(Icons.grid_on),
-                  ),
-                  Positioned(
-                    bottom: 10,
-                    right: 10,
-                    child: FaIcon(
-                      FontAwesomeIcons.retweet,
-                      size: 20,
-                    ),
-                  ),
+                  // Positioned(
+                  //   bottom: 10,
+                  //   left: 10,
+                  //   child: Icon(Icons.grid_on),
+                  // ),
+                  // Positioned(
+                  //   bottom: 10,
+                  //   right: 10,
+                  //   child: FaIcon(
+                  //     FontAwesomeIcons.retweet,
+                  //     size: 20,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -46,29 +45,31 @@ class UploadPhotoTab extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.mic,
-                    color: Colors.grey,
-                    size: theme.primaryIconTheme.size,
-                  ),
+                  // Icon(
+                  //   Icons.mic,
+                  //   color: Colors.grey,
+                  //   size: theme.primaryIconTheme.size,
+                  // ),
                   RawMaterialButton(
                     onPressed: () {
+                      Provider.of<UploadPost>(context, listen: false)
+                          .uploadPostImageToFirebase();
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CreatePostScreen()));
                     },
                     fillColor: theme.primaryColor,
                     shape: CircleBorder(),
                     padding: EdgeInsets.all(15),
-                    child: Icon(
-                      Icons.camera_alt,
-                      size: 30,
+                    child: FaIcon(
+                      FontAwesomeIcons.check,
+                      size: 25,
                     ),
                   ),
-                  Icon(
-                    Icons.flash_off,
-                    color: Colors.grey,
-                    size: theme.primaryIconTheme.size,
-                  ),
+                  // Icon(
+                  //   Icons.flash_off,
+                  //   color: Colors.grey,
+                  //   size: theme.primaryIconTheme.size,
+                  // ),
                 ],
               ),
             ),

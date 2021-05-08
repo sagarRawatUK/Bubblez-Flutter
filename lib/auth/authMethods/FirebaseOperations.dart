@@ -1,4 +1,5 @@
 import 'package:bubblez/auth/register/imageSelect.dart';
+import 'package:bubblez/home/components/group/chat_helpers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,16 @@ import 'Authentication.dart';
 
 class FirebaseOperations with ChangeNotifier {
   UploadTask imageUploadTask;
-  String initUserEmail, initUserName, initUserImage;
+  String initUserEmail,
+      initUserName,
+      initUserImage,
+      initUserPhone,
+      initUserFullName;
   String get getInitUserName => initUserName;
   String get getInitUserEmail => initUserEmail;
   String get getInitUserImage => initUserImage;
+  String get getInitUserPhone => initUserPhone;
+  String get getInitUserFullName => initUserFullName;
 
   Future uploadUserAvatar(BuildContext context) async {
     Reference imageReference = FirebaseStorage.instance
@@ -23,8 +30,8 @@ class FirebaseOperations with ChangeNotifier {
       imageReference.getDownloadURL().then((url) {
         print("#####################" + url);
         imageSelect.userAvatarUrl = url.toString();
-        print(
-            'the user profile avatar url => ${Provider.of<ImageSelect>(context, listen: false).getUserAvatarUrl}');
+        // print(
+        //     'the user profile avatar url => ${Provider.of<ImageSelect>(context, listen: false).getUserAvatarUrl}');
       });
     });
 
@@ -49,9 +56,15 @@ class FirebaseOperations with ChangeNotifier {
       initUserName = doc.data()['username'];
       initUserEmail = doc.data()['useremail'];
       initUserImage = doc.data()['userimage'];
+      initUserPhone = doc.data()['usermobile'];
+      initUserFullName = doc.data()['username'];
+
       print(initUserName);
       print(initUserEmail);
       print(initUserImage);
+      print(initUserPhone);
+      print(initUserFullName);
+
       notifyListeners();
     });
   }
@@ -110,5 +123,24 @@ class FirebaseOperations with ChangeNotifier {
         .collection('chatrooms')
         .doc(chatRoomName)
         .set(chatRoomData);
+  }
+
+  Future uploadChatroomAvatar(BuildContext context) async {
+    Reference imageReference = FirebaseStorage.instance
+        .ref()
+        .child('chatroomAvatar/${DateTime.now()}');
+    var imageSelect = Provider.of<ChatroomHelpers>(context, listen: false);
+    imageUploadTask = imageReference.putFile(imageSelect.chatroomAvatarFile);
+    await imageUploadTask.whenComplete(() {
+      print('Image uploaded!');
+      imageReference.getDownloadURL().then((url) {
+        print("#####################" + url);
+        imageSelect.chatroomAvatarUrl = url.toString();
+        // print(
+        //     'the user profile avatar url => ${Provider.of<ImageSelect>(context, listen: false).getUserAvatarUrl}');
+      });
+    });
+
+    notifyListeners();
   }
 }

@@ -1,7 +1,10 @@
-import 'package:bubblez/home/upload.dart';
+import 'package:bubblez/home/components/post/text_post.dart';
+import 'package:bubblez/home/components/postOperations/uploadPost.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class CustomHomeFloatingActionButton extends StatefulWidget {
   Function _updateBottomSheetInstance;
@@ -42,15 +45,15 @@ class _CustomHomeFloatingActionButtonState
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => UploadScreen()));
+                      Provider.of<UploadPost>(context, listen: false)
+                          .pickUploadPostImage(context, ImageSource.camera);
                     },
                     child: Icon(Icons.camera_alt),
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => UploadScreen()));
+                      Provider.of<UploadPost>(context, listen: false)
+                          .pickUploadPostImage(context, ImageSource.camera);
                     },
                     child: FaIcon(
                       FontAwesomeIcons.video,
@@ -59,13 +62,16 @@ class _CustomHomeFloatingActionButtonState
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => UploadScreen()));
+                      Provider.of<UploadPost>(context, listen: false)
+                          .pickUploadPostImage(context, ImageSource.gallery);
                     },
                     child: Icon(Icons.image),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => TextPostScreen()));
+                    },
                     child: Icon(Icons.text_format),
                   ),
                 ],

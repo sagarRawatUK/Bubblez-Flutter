@@ -18,25 +18,25 @@ class UploadVideoTab extends StatelessWidget {
                   LayoutBuilder(
                     builder: (_, constraints) => Container(
                       height: constraints.maxHeight,
-                      child: Image.asset(
-                        'assets/images/Layer915.png',
-                        fit: BoxFit.fitHeight,
-                      ),
+                      // child: Image.asset(
+                      //   'assets/images/Layer915.png',
+                      //   fit: BoxFit.fitHeight,
+                      // ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 10,
-                    left: 10,
-                    child: Icon(Icons.grid_on),
-                  ),
-                  Positioned(
-                    bottom: 10,
-                    right: 10,
-                    child: FaIcon(
-                      FontAwesomeIcons.retweet,
-                      size: 20,
-                    ),
-                  ),
+                  // Positioned(
+                  //   bottom: 10,
+                  //   left: 10,
+                  //   child: Icon(Icons.grid_on),
+                  // ),
+                  // Positioned(
+                  //   bottom: 10,
+                  //   right: 10,
+                  //   child: FaIcon(
+                  //     FontAwesomeIcons.retweet,
+                  //     size: 20,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -46,11 +46,11 @@ class UploadVideoTab extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.mic,
-                    color: grey,
-                    size: theme.primaryIconTheme.size,
-                  ),
+                  // Icon(
+                  //   Icons.mic,
+                  //   color: grey,
+                  //   size: theme.primaryIconTheme.size,
+                  // ),
                   RawMaterialButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -60,15 +60,15 @@ class UploadVideoTab extends StatelessWidget {
                     shape: CircleBorder(),
                     padding: EdgeInsets.all(15),
                     child: FaIcon(
-                      FontAwesomeIcons.video,
+                      FontAwesomeIcons.check,
                       size: 25,
                     ),
                   ),
-                  Icon(
-                    Icons.flash_off,
-                    color: grey,
-                    size: theme.primaryIconTheme.size,
-                  ),
+                  // Icon(
+                  //   Icons.flash_off,
+                  //   color: grey,
+                  //   size: theme.primaryIconTheme.size,
+                  // ),
                 ],
               ),
             ),

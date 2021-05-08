@@ -1,4 +1,5 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:bubblez/home/components/chat_tabs/chat_group_tab_screen.dart';
 import 'package:bubblez/home/components/group/group_info_edit.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:flutter/material.dart';
@@ -144,7 +145,7 @@ class _ChatCreateGroupAddMemberScreenState
                       ? null
                       : () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => GroupInfoEditScren()));
+                              builder: (context) => ChatGroupTabScreen()));
                         },
                   child: Container(
                     alignment: Alignment.center,

@@ -1,34 +1,24 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:bubblez/auth/authMethods/Authentication.dart';
+import 'package:bubblez/auth/authMethods/FirebaseOperations.dart';
+import 'package:bubblez/home/components/postOperations/postFunctions.dart';
 import 'package:bubblez/style/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CommentScreen extends StatefulWidget {
+  DocumentSnapshot snapshot;
+  CommentScreen(this.snapshot);
   @override
   _CommentScreenState createState() => _CommentScreenState();
 }
 
-class Comments {
-  String image;
-  String name;
-
-  Comments(this.image, this.name);
-}
-
 class _CommentScreenState extends State<CommentScreen> {
+  TextEditingController _commentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    List<Comments> _comments = [
-      Comments('assets/images/Layer707.png', 'Emili Williamson'),
-      Comments('assets/images/Layer709.png', 'Harshu Makkar'),
-      Comments('assets/images/Layer948.png', 'Mrs. White'),
-      Comments('assets/images/Layer884.png', 'Marie Black'),
-      Comments('assets/images/Layer915.png', 'Emili Williamson'),
-      Comments('assets/images/Layer946.png', 'Emili Williamson'),
-      Comments('assets/images/Layer948.png', 'Emili Williamson'),
-      Comments('assets/images/Layer949.png', 'Emili Williamson'),
-      Comments('assets/images/Layer950.png', 'Emili Williamson'),
-    ];
     final theme = Theme.of(context);
     final mediaQuery = MediaQuery.of(context);
     final bHeight = mediaQuery.size.height - mediaQuery.padding.top;
@@ -44,8 +34,8 @@ class _CommentScreenState extends State<CommentScreen> {
                       Container(
                         width: double.infinity,
                         height: (bHeight - 60) * 0.4,
-                        child: Image.asset(
-                          'assets/images/Layer709.png',
+                        child: Image.network(
+                          widget.snapshot.data()['postimage'],
                           fit: BoxFit.fitWidth,
                         ),
                       ),
@@ -60,7 +50,7 @@ class _CommentScreenState extends State<CommentScreen> {
                   FadedSlideAnimation(
                     Container(
                       height: (bHeight - 60) * 0.6,
-                      color: Color.fromRGBO(27, 77, 42, 1),
+                      // color: Color.fromRGBO(27, 77, 42, 1),
                       // decoration: BoxDecoration(),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -93,8 +83,9 @@ class _CommentScreenState extends State<CommentScreen> {
                                       children: [
                                         CircleAvatar(
                                           radius: 25,
-                                          backgroundImage: AssetImage(
-                                              'assets/images/Layer884.png'),
+                                          backgroundImage: NetworkImage(widget
+                                              .snapshot
+                                              .data()['userimage']),
                                         ),
                                         SizedBox(width: 10),
                                         Column(
@@ -103,7 +94,8 @@ class _CommentScreenState extends State<CommentScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text("Mia"),
+                                            Text(widget.snapshot
+                                                .data()['username']),
                                             Text("today",
                                                 style: theme.textTheme.bodyText1
                                                     .copyWith(
@@ -112,36 +104,51 @@ class _CommentScreenState extends State<CommentScreen> {
                                           ],
                                         ),
                                         Spacer(),
-                                        Image.asset(
-                                          'assets/Icons/ic_share.png',
-                                          scale: 3,
-                                        ),
-                                        SizedBox(width: 10),
                                         Icon(
                                           Icons.bookmark_outline,
-                                          size: 17,
+                                          size: 20,
                                           color: Colors.grey,
                                         ),
                                         SizedBox(width: 10),
                                         FaIcon(
                                           Icons.repeat_rounded,
-                                          size: 17,
+                                          size: 20,
                                           color: Colors.grey,
                                         ),
                                         SizedBox(width: 10),
                                         Icon(
                                           Icons.favorite_border,
-                                          size: 17,
+                                          size: 20,
                                           color: Colors.grey,
                                         ),
                                         SizedBox(width: 10),
-                                        Text(
-                                          "8.2k",
-                                          style: theme.textTheme.bodyText1
-                                              .copyWith(
-                                                  color: Colors.grey,
-                                                  letterSpacing: 1),
-                                        ),
+                                        StreamBuilder<QuerySnapshot>(
+                                            stream: FirebaseFirestore.instance
+                                                .collection('posts')
+                                                .doc(widget.snapshot
+                                                    .data()['caption'])
+                                                .collection('likes')
+                                                .snapshots(),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return Text(
+                                                  '0',
+                                                  style: TextStyle(
+                                                      color: grey,
+                                                      fontSize: 12,
+                                                      letterSpacing: 1),
+                                                );
+                                              } else
+                                                return Text(
+                                                  snapshot.data.docs.length
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      color: grey,
+                                                      fontSize: 12,
+                                                      letterSpacing: 1),
+                                                );
+                                            }),
                                         SizedBox(width: 10),
                                       ],
                                     ),
@@ -150,60 +157,118 @@ class _CommentScreenState extends State<CommentScreen> {
                                     padding:
                                         const EdgeInsets.fromLTRB(10, 10, 0, 9),
                                     child: Text(
-                                      'Finding myself !!',
+                                      widget.snapshot.data()['caption'],
                                       textAlign: TextAlign.left,
                                       style: theme.textTheme.headline6.copyWith(
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 18),
+                                          fontSize: 15),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                          Expanded(
-                            // height: constraints.maxHeight * 0.7,
-                            // color: Colors.white,
-                            child: ListView.builder(
-                              itemCount: _comments.length,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  color: Colors.white,
-                                  child: ListTile(
-                                    leading: CircleAvatar(
-                                      backgroundImage:
-                                          AssetImage(_comments[index].image),
-                                    ),
-                                    title: RichText(
-                                      text: TextSpan(
-                                        style: theme.textTheme.bodyText1
-                                            .copyWith(fontSize: 17),
-                                        children: [
-                                          TextSpan(
-                                            text: _comments[index].name,
-                                            style: theme.textTheme.headline6
-                                                .copyWith(fontSize: 14),
+                          Container(
+                            child: StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection('posts')
+                                  .doc(widget.snapshot.data()['caption'])
+                                  .collection('comments')
+                                  .orderBy('time')
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                } else {
+                                  return ListView(
+                                    shrinkWrap: true,
+                                    children: snapshot.data.docs.map(
+                                        (DocumentSnapshot documentSnapshot) {
+                                      return Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        color: Colors.white,
+                                        child: ListTile(
+                                          leading: CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                documentSnapshot
+                                                    .data()['userimage']),
                                           ),
-                                          TextSpan(
-                                              text: '   ' + "today",
-                                              style: TextStyle(
-                                                  fontSize: 10,
-                                                  color: Colors.grey)),
-                                        ],
-                                      ),
-                                    ),
-                                    subtitle: Text(
-                                      "Amazing",
-                                      style: theme.textTheme.subtitle2.copyWith(
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    trailing: Icon(Icons.favorite_border),
-                                  ),
-                                );
+                                          title: RichText(
+                                            text: TextSpan(
+                                              style: theme.textTheme.bodyText1
+                                                  .copyWith(fontSize: 17),
+                                              children: [
+                                                TextSpan(
+                                                  text: documentSnapshot
+                                                      .data()['username'],
+                                                  style: theme
+                                                      .textTheme.headline6
+                                                      .copyWith(fontSize: 14),
+                                                ),
+                                                TextSpan(
+                                                    text: '   ' + "today",
+                                                    style: TextStyle(
+                                                        fontSize: 10,
+                                                        color: Colors.grey)),
+                                              ],
+                                            ),
+                                          ),
+                                          subtitle: Text(
+                                            documentSnapshot.data()['comment'],
+                                            style: theme.textTheme.subtitle2
+                                                .copyWith(
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                          trailing: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              IconButton(
+                                                  icon: Icon(
+                                                    Icons.favorite_border,
+                                                    size: 20,
+                                                  ),
+                                                  onPressed: () {}),
+                                              Text('0',
+                                                  style: TextStyle(
+                                                      fontSize: 10,
+                                                      color: Colors.grey)),
+                                              IconButton(
+                                                  icon: Icon(
+                                                    Icons.reply,
+                                                    size: 20,
+                                                  ),
+                                                  onPressed: () {}),
+                                              Text('0',
+                                                  style: TextStyle(
+                                                      fontSize: 10,
+                                                      color: Colors.grey)),
+                                              Provider.of<Authentication>(
+                                                              context,
+                                                              listen: false)
+                                                          .getUserUid ==
+                                                      widget.snapshot.data()
+                                                  ? IconButton(
+                                                      icon: Icon(
+                                                        Icons.delete,
+                                                        color: Colors.red,
+                                                        size: 20,
+                                                      ),
+                                                      onPressed: () {})
+                                                  : SizedBox.shrink()
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  );
+                                }
                               },
                             ),
-                          ),
+                          )
                         ],
                       ),
                     ),
@@ -222,17 +287,30 @@ class _CommentScreenState extends State<CommentScreen> {
                     height: 60,
                     child: ListTile(
                       leading: CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/images/Layer1677.png'),
+                        backgroundImage: NetworkImage(
+                            Provider.of<FirebaseOperations>(context,
+                                    listen: false)
+                                .getInitUserImage),
                       ),
                       title: TextField(
+                        controller: _commentController,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "Write your Comment",
                           hintStyle: TextStyle(fontSize: 14),
                         ),
                       ),
-                      trailing: Icon(Icons.send, color: theme.primaryColor),
+                      trailing: IconButton(
+                          icon: Icon(Icons.send, color: theme.primaryColor),
+                          onPressed: () {
+                            print("Adding Comment");
+                            Provider.of<PostFunctions>(context, listen: false)
+                                .addComment(
+                                    context,
+                                    widget.snapshot.data()['caption'],
+                                    _commentController.text);
+                            _commentController.clear();
+                          }),
                     ),
                   ),
                 ],

@@ -19,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  bool isLoading;
   TabController _tabController;
   int _tabbarselectedIndex;
   int _bottombarIndex;
@@ -232,12 +233,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               _scaffoldKey.currentState.openEndDrawer();
             },
             child: FadedScaleAnimation(
-              CircleAvatar(
-                backgroundImage: NetworkImage(
-                    Provider.of<FirebaseOperations>(context, listen: false)
-                        .getInitUserImage),
-                radius: 20,
-              ),
+              Provider.of<FirebaseOperations>(context).getInitUserImage == null
+                  ? CircleAvatar(
+                      radius: 20,
+                      backgroundImage: AssetImage("assets/plc_profile.png"),
+                    )
+                  : CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          Provider.of<FirebaseOperations>(context,
+                                  listen: false)
+                              .getInitUserImage),
+                      radius: 20,
+                    ),
             ),
           ),
         ),

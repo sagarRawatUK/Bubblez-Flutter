@@ -8,12 +8,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CreatePostScreen extends StatefulWidget {
+class UpdatePostScreen extends StatefulWidget {
+  DocumentSnapshot snapshot;
+  UpdatePostScreen(this.snapshot);
   @override
-  _CreatePostScreenState createState() => _CreatePostScreenState();
+  _UpdatePostScreenState createState() => _UpdatePostScreenState();
 }
 
-class _CreatePostScreenState extends State<CreatePostScreen> {
+class _UpdatePostScreenState extends State<UpdatePostScreen> {
   TextEditingController _captionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     final myAppbar = AppBar(
       backgroundColor: white,
       elevation: 0,
-      title: Text("Create Post",
+      title: Text("Edit Post",
           style:
               theme.textTheme.headline6.copyWith(fontWeight: FontWeight.w500)),
       leading: IconButton(
@@ -74,61 +76,19 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   height: MediaQuery.of(context).size.height * 0.6,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: FadedScaleAnimation(Image.file(
-                        Provider.of<UploadPost>(context, listen: false)
-                            .uploadPostImage)),
+                    child: FadedScaleAnimation(
+                        Image.network(widget.snapshot.data()['postimage'])),
                   ),
                 ),
                 GestureDetector(
                   onTap: () {
                     Provider.of<FirebaseOperations>(context, listen: false)
-                        .uploadPostData(_captionController.text, {
-                      'postimage':
-                          Provider.of<UploadPost>(context, listen: false)
-                              .getUploadPostImageUrl,
-                      'caption': _captionController.text,
-                      'username': Provider.of<FirebaseOperations>(context,
-                              listen: false)
-                          .getInitUserName,
-                      'userimage': Provider.of<FirebaseOperations>(context,
-                              listen: false)
-                          .getInitUserImage,
-                      'useruid':
-                          Provider.of<Authentication>(context, listen: false)
-                              .getUserUid,
-                      'useremail': Provider.of<FirebaseOperations>(context,
-                              listen: false)
-                          .getInitUserEmail,
-                      'time': Timestamp.now()
-                    }).whenComplete(() async {
-                      return FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(Provider.of<Authentication>(context,
-                                  listen: false)
-                              .getUserUid)
-                          .collection('posts')
-                          .add({
-                        'postimage':
-                            Provider.of<UploadPost>(context, listen: false)
-                                .getUploadPostImageUrl,
-                        'caption': _captionController.text,
-                        'username': Provider.of<FirebaseOperations>(context,
-                                listen: false)
-                            .getInitUserName,
-                        'userimage': Provider.of<FirebaseOperations>(context,
-                                listen: false)
-                            .getInitUserImage,
-                        'useruid':
-                            Provider.of<Authentication>(context, listen: false)
-                                .getUserUid,
-                        'useremail': Provider.of<FirebaseOperations>(context,
-                                listen: false)
-                            .getInitUserEmail,
-                        'time': Timestamp.now()
-                      });
-                    }).whenComplete(() => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => HomeScreen())));
+                        .updateCaption(widget.snapshot.data()['caption'], {
+                      'caption': _captionController.text
+                    }).whenComplete(() {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => HomeScreen()));
+                    });
                   },
                   child: Container(
                     margin: EdgeInsets.only(top: 20),
@@ -139,7 +99,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
-                      "Submit Post",
+                      "Update Post",
                       style: theme.textTheme.button,
                     ),
                   ),

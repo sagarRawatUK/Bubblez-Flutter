@@ -1,7 +1,10 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:bubblez/auth/authMethods/FirebaseOperations.dart';
 import 'package:bubblez/auth/login/login.dart';
+import 'package:bubblez/auth/register/imageSelect.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -9,8 +12,29 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  TextEditingController _nametextController = TextEditingController();
+  TextEditingController _usernametextController = TextEditingController();
+  TextEditingController _phonetextController = TextEditingController();
+  TextEditingController _emailtextController = TextEditingController();
+  @override
+  void initState() {
+    _nametextController.text =
+        Provider.of<FirebaseOperations>(context, listen: false).getInitUserName;
+    _emailtextController.text =
+        Provider.of<FirebaseOperations>(context, listen: false)
+            .getInitUserEmail;
+    _phonetextController.text =
+        Provider.of<FirebaseOperations>(context, listen: false).initUserPhone;
+    _usernametextController.text =
+        Provider.of<FirebaseOperations>(context, listen: false)
+            .initUserFullName;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(Provider.of<FirebaseOperations>(context, listen: false)
+        .getInitUserImage);
     final theme = Theme.of(context);
     final mediaQuery = MediaQuery.of(context);
     final myAppBar = AppBar(
@@ -58,31 +82,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   margin: EdgeInsets.only(top: 20, bottom: 20),
                   width: double.infinity,
                   alignment: Alignment.center,
-                  child: Stack(
-                    children: [
-                      FadedScaleAnimation(
-                        CircleAvatar(
-                          radius: 60,
-                          backgroundImage:
-                              AssetImage('assets/images/Layer1677.png'),
-                        ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        top: 7,
-                        child: Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: theme.primaryColor,
+                  child: GestureDetector(
+                    onTap: () {
+                      Provider.of<ImageSelect>(context, listen: false)
+                          .selectAvatarOptionsSheet(context);
+                    },
+                    child: Stack(
+                      children: [
+                        FadedScaleAnimation(CircleAvatar(
+                            radius: 60,
+                            backgroundImage: NetworkImage(
+                                Provider.of<FirebaseOperations>(context,
+                                        listen: false)
+                                    .getInitUserImage))),
+                        Positioned(
+                          right: 0,
+                          top: 7,
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: theme.primaryColor,
+                            ),
+                            child: Icon(
+                              Icons.camera_alt,
+                              size: 18,
+                            ),
                           ),
-                          child: Icon(
-                            Icons.camera_alt,
-                            size: 18,
-                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 Column(
@@ -103,7 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
                       child: TextField(
-                        controller: TextEditingController(text: "Mia"),
+                        controller: _nametextController,
                         decoration: InputDecoration(
                           labelText: "Full Name",
                           alignLabelWithHint: false,
@@ -121,7 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: double.infinity,
                       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                       child: TextField(
-                        controller: TextEditingController(text: "Mia"),
+                        controller: _usernametextController,
                         decoration: InputDecoration(
                           labelText: "Username",
                           labelStyle: TextStyle(height: 1),
@@ -138,8 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: double.infinity,
                       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                       child: TextField(
-                        controller:
-                            TextEditingController(text: '+1 9876543210'),
+                        controller: _phonetextController,
                         decoration: InputDecoration(
                           labelText: "Phone Number",
                           labelStyle: TextStyle(height: 1),
@@ -156,7 +184,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: double.infinity,
                       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                       child: TextField(
-                        controller: TextEditingController(text: "Mia"),
+                        controller: _emailtextController,
                         decoration: InputDecoration(
                           labelText: "EmailAddress",
                           labelStyle: TextStyle(height: 1),
