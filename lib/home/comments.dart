@@ -96,11 +96,11 @@ class _CommentScreenState extends State<CommentScreen> {
                                           children: [
                                             Text(widget.snapshot
                                                 .data()['username']),
-                                            Text("today",
-                                                style: theme.textTheme.bodyText1
-                                                    .copyWith(
-                                                        color: Colors.grey,
-                                                        fontSize: 11)),
+                                            // Text("today",
+                                            //     style: theme.textTheme.bodyText1
+                                            //         .copyWith(
+                                            //             color: Colors.grey,
+                                            //             fontSize: 11)),
                                           ],
                                         ),
                                         Spacer(),
@@ -250,7 +250,8 @@ class _CommentScreenState extends State<CommentScreen> {
                                                               context,
                                                               listen: false)
                                                           .getUserUid ==
-                                                      widget.snapshot.data()
+                                                      widget.snapshot
+                                                          .data()['useruid']
                                                   ? IconButton(
                                                       icon: Icon(
                                                         Icons.delete,

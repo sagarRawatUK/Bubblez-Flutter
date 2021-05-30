@@ -1,7 +1,7 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:bubblez/auth/authMethods/Authentication.dart';
 import 'package:bubblez/auth/authMethods/FirebaseOperations.dart';
-import 'package:bubblez/home/components/group/chat_helpers.dart';
+import 'package:bubblez/home/components/chat_tabs/chat_helpers.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -130,7 +130,7 @@ class GroupInfoEditScren extends StatelessWidget {
               onTap: () {
                 Provider.of<FirebaseOperations>(context, listen: false)
                     .submitChatroomData(_groupNameController.text, {
-                  'roomAvatar':
+                  'roomavatar':
                       Provider.of<ChatroomHelpers>(context, listen: false)
                           .chatroomAvatarUrl,
                   'time': Timestamp.now(),
@@ -147,7 +147,8 @@ class GroupInfoEditScren extends StatelessWidget {
                 });
                 Navigator.of(context).pop();
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => ChatCreateGroupAddMemberScreen()));
+                    builder: (context) => ChatCreateGroupAddMemberScreen(
+                        _groupNameController.text)));
               },
               child: Container(
                 width: double.infinity,

@@ -13,7 +13,6 @@ class PostFunctions with ChangeNotifier {
     Timestamp time = timedata;
     DateTime dateTime = time.toDate();
     imageTimePosted = timeago.format(dateTime);
-    print(imageTimePosted);
     notifyListeners();
   }
 

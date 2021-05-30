@@ -29,8 +29,6 @@ class _LoginState extends State<Login> {
             padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
             child: SingleChildScrollView(
               child: Column(
-                // main axis won't work with singlechildscrollview
-                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(height: 15),
                   Container(
@@ -46,6 +44,13 @@ class _LoginState extends State<Login> {
                         ),
                       )),
                   SizedBox(height: 45),
+                  // Text(
+                  //   "Enter your Details",
+                  //   style: theme.textTheme.button.copyWith(
+                  //     color: Colors.black,
+                  //     fontWeight: FontWeight.normal,
+                  //   ),
+                  // ),
                   TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
@@ -115,51 +120,65 @@ class _LoginState extends State<Login> {
                       margin: EdgeInsets.only(top: 10),
                       padding: EdgeInsets.only(top: 16, bottom: 16),
                       child: Text(
-                        "SignIn",
+                        "Sign In",
                         style: theme.textTheme.button.copyWith(fontSize: 16),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Register()));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                          style: BorderStyle.solid,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      margin: EdgeInsets.only(top: 10),
+                      child: Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsetsDirectional.only(start: 15),
+                            height: 25,
+                            child: Image.asset("assets/ic_google.png"),
+                          ),
+                          Spacer(),
+                          Text(
+                            "Sign in with Google",
+                            style: theme.textTheme.button.copyWith(
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          Spacer(
+                            flex: 2,
+                          ),
+                        ],
                       ),
                     ),
                   ),
                   SizedBox(height: 45),
                   Padding(
                     padding: const EdgeInsets.only(top: 14, bottom: 14),
-                    child: Text("Or continue with",
+                    child: Text("Or",
                         style:
                             theme.textTheme.headline6.copyWith(fontSize: 14)),
                   ),
                   SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomButton(
-                          icon: Image.asset('assets/ic_fb.png', scale: 3),
-                          radius: 10,
-                          color: Colors.blue,
-                          onTap: () {
-                            // Navigator.of(context)
-                            //     .push(_createPageRoute(SignupScreen()));
-                          },
-                          label: 'Facebook',
-                          textColor: Colors.white,
-                        ),
-                      ),
-                      SizedBox(width: 20.0),
-                      Expanded(
-                        child: CustomButton(
-                          label: 'Google',
-                          radius: 10,
-                          onTap: () {
-                            // Navigator.of(context)
-                            //     .push(_createPageRoute(SignupScreen()));
-                          },
-                          icon: Image.asset('assets/ic_google.png', scale: 3),
-                          color: Colors.green,
-                          textColor: Colors.white,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    "New User?",
+                    style: theme.textTheme.button.copyWith(
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
-                  SizedBox(height: 40),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(context,
@@ -170,7 +189,7 @@ class _LoginState extends State<Login> {
                         border: Border.all(
                           color: theme.primaryColor,
                           style: BorderStyle.solid,
-                          width: 1.5,
+                          width: 1,
                         ),
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -178,10 +197,10 @@ class _LoginState extends State<Login> {
                       padding: EdgeInsets.symmetric(vertical: 15),
                       margin: EdgeInsets.only(top: 10),
                       child: Text(
-                        "New User?",
+                        "Create an Account",
                         style: theme.textTheme.button.copyWith(
                           color: theme.primaryColor,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.normal,
                         ),
                       ),
                     ),

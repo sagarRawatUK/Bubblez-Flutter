@@ -1,5 +1,6 @@
 import 'package:bubblez/auth/register/imageSelect.dart';
-import 'package:bubblez/home/components/group/chat_helpers.dart';
+import 'package:bubblez/home/components/chat_tabs/chat_helpers.dart';
+import 'package:bubblez/home/components/group/group_message_helper.dart';
 import 'package:bubblez/style/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class Bubblez extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UploadPost()),
         ChangeNotifierProvider(create: (_) => PostFunctions()),
         ChangeNotifierProvider(create: (_) => ChatroomHelpers()),
+        ChangeNotifierProvider(create: (_) => GroupMessageHelpers()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

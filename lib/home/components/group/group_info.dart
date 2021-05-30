@@ -1,9 +1,15 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:bubblez/auth/authMethods/Authentication.dart';
+import 'package:bubblez/home/userProfile/user_profile.dart';
 import 'package:bubblez/style/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class GroupInfoScreen extends StatefulWidget {
+  DocumentSnapshot documentSnapshot;
+  GroupInfoScreen(this.documentSnapshot);
   @override
   _GroupInfoScreenState createState() => _GroupInfoScreenState();
 }
@@ -31,9 +37,11 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
     final theme = Theme.of(context);
     final mediaQuery = MediaQuery.of(context);
     final myAppBar = AppBar(
+      titleSpacing: 0,
       backgroundColor: white,
       title: Text("Group Info",
-          style: theme.textTheme.headline6.copyWith(
+          style: theme.textTheme.button.copyWith(
+            color: Colors.black,
             fontWeight: FontWeight.w500,
           )),
       leading: IconButton(
@@ -67,11 +75,16 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
               children: [
                 FadedScaleAnimation(
                   Container(
-                    height: bheight * 0.15,
                     margin: EdgeInsets.only(top: 40),
                     decoration: BoxDecoration(shape: BoxShape.circle),
-                    child:
-                        Image.asset('assets/images/profile_pics/Layer1550.png'),
+                    child: Hero(
+                      tag: 'roomAvatar',
+                      child: CircleAvatar(
+                        radius: bheight * 0.1,
+                        backgroundImage: NetworkImage(
+                            widget.documentSnapshot.data()['roomavatar']),
+                      ),
+                    ),
                   ),
                 ),
                 Container(
@@ -82,7 +95,7 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(top: 10),
                         child: Text(
-                          "Awesome Friends",
+                          widget.documentSnapshot.data()['roomname'],
                           style: theme.textTheme.headline6.copyWith(
                               fontWeight: FontWeight.w500, fontSize: 20),
                         ),
@@ -91,7 +104,7 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(top: 10),
                         child: Text(
-                          "Hangout friends group",
+                          widget.documentSnapshot.data()['roomdescription'],
                           style: theme.textTheme.headline6.copyWith(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -153,21 +166,14 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
                         height: 70,
                         child: Row(
                           children: [
-                            Image.asset('assets/images/Layer971.png'),
-                            SizedBox(width: 1),
-                            Image.asset('assets/images/Layer971.png'),
-                            SizedBox(width: 1),
-                            Image.asset('assets/images/Layer971.png'),
-                            SizedBox(width: 1),
-                            Image.asset('assets/images/Layer971.png'),
-                            SizedBox(width: 1),
                             Stack(
                               alignment: Alignment.center,
                               children: [
-                                Image.asset(
-                                  'assets/images/Layer971.png',
-                                  color: theme.primaryColor,
-                                  colorBlendMode: BlendMode.hardLight,
+                                Container(
+                                  height: 70,
+                                  width: 70,
+                                  decoration:
+                                      BoxDecoration(color: Colors.grey[300]),
                                 ),
                                 Text(
                                   "View all",
@@ -185,45 +191,89 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
                     ],
                   ),
                 ),
-                Container(
-                  width: double.infinity,
-                  color: grey[350],
-                  padding: EdgeInsets.all(15),
-                  child: Text(
-                    'Members in group (06)',
-                    style: theme.textTheme.bodyText1
-                        .copyWith(color: grey[600], fontSize: 15),
-                  ),
+                StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('chatrooms')
+                      .doc(widget.documentSnapshot.id)
+                      .collection('members')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    return snapshot.connectionState == ConnectionState.waiting
+                        ? Container(
+                            width: double.infinity,
+                            color: Colors.grey[350],
+                            padding: EdgeInsets.all(15),
+                            child: Text(""),
+                          )
+                        : Container(
+                            width: double.infinity,
+                            color: Colors.grey[350],
+                            padding: EdgeInsets.all(15),
+                            child: Text(
+                              "${snapshot.data.docs.length.toString()} members",
+                              style: theme.textTheme.headline6.copyWith(
+                                  fontWeight: FontWeight.normal,
+                                  color: theme.hintColor,
+                                  fontSize: 14),
+                            ),
+                          );
+                  },
                 ),
                 Container(
                   alignment: Alignment.center,
                   height: bheight * 0.4,
-                  child: ListView.builder(
-                    itemCount: _groupItems.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(40),
-                            child: Image.asset(
-                              _groupItems[index].image,
-                              fit: BoxFit.fill,
-                            )),
-                        title: Text(
-                          _groupItems[index].name,
-                          style: theme.textTheme.subtitle2.copyWith(
-                            fontSize: 14,
-                          ),
-                        ),
-                        subtitle: Text(
-                          "iamaronsmith",
-                          style: theme.textTheme.subtitle2.copyWith(
-                            color: theme.hintColor,
-                            fontSize: 10,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                  child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('chatrooms')
+                          .doc(widget.documentSnapshot.id)
+                          .collection('members')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        return snapshot.connectionState ==
+                                ConnectionState.waiting
+                            ? CircularProgressIndicator()
+                            : ListView(
+                                children: snapshot.data.docs.map<Widget>(
+                                    (DocumentSnapshot documentSnapshot) {
+                                return ListTile(
+                                  onTap: () {
+                                    if (Provider.of<Authentication>(context)
+                                            .getUserUid !=
+                                        documentSnapshot.data()['useruid'])
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UserProfileScreen(
+                                                      documentSnapshot
+                                                          .data()['useruid'])));
+                                  },
+                                  leading: ClipRRect(
+                                      borderRadius: BorderRadius.circular(40),
+                                      child: Container(
+                                        height: 40,
+                                        width: 40,
+                                        child: Image.network(
+                                          documentSnapshot.data()['userimage'],
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )),
+                                  title: Text(
+                                    documentSnapshot.data()['username'],
+                                    style: theme.textTheme.subtitle2.copyWith(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    "Member",
+                                    style: theme.textTheme.subtitle2.copyWith(
+                                      color: theme.hintColor,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                );
+                              }).toList());
+                      }),
                 ),
               ],
             ),

@@ -1,5 +1,5 @@
 import 'package:bubblez/auth/register/imageSelect.dart';
-import 'package:bubblez/home/components/group/chat_helpers.dart';
+import 'package:bubblez/home/components/chat_tabs/chat_helpers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';

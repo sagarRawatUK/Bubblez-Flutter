@@ -1,10 +1,14 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:bubblez/home/components/chat_tabs/chat_group_tab_screen.dart';
+import 'package:bubblez/home/components/group/group_chat_screen.dart';
 import 'package:bubblez/home/components/group/group_info_edit.dart';
 import 'package:bubblez/style/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChatCreateGroupAddMemberScreen extends StatefulWidget {
+  String groupName;
+  ChatCreateGroupAddMemberScreen(this.groupName);
   @override
   _ChatCreateGroupAddMemberScreenState createState() =>
       _ChatCreateGroupAddMemberScreenState();
@@ -143,9 +147,17 @@ class _ChatCreateGroupAddMemberScreenState
                 GestureDetector(
                   onTap: _selectedMember.length == 0
                       ? null
-                      : () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ChatGroupTabScreen()));
+                      : () async {
+                          var snapshot = await FirebaseFirestore.instance
+                              .collection('chatrooms')
+                              .doc(widget.groupName)
+                              .get();
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      GroupChatScreen(snapshot)));
+                          // Navigator.pop(context);
+                          // Navigator.pop(context);
                         },
                   child: Container(
                     alignment: Alignment.center,
