@@ -12,13 +12,6 @@ class StoryFollowingTabScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> _images = [
-      'assets/images/Layer1774.png',
-      'assets/images/Layer1801.png',
-      'assets/images/Layer1801_1.png',
-      'assets/images/Layer1045.png',
-      'assets/images/Layer1774.png',
-    ];
     return Container(
       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: FadedSlideAnimation(
@@ -41,7 +34,7 @@ class StoryFollowingTabScreen extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.asset(
-                      _images[index],
+                      'assets/bg.jpg',
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -55,7 +48,7 @@ class StoryFollowingTabScreen extends StatelessWidget {
                       },
                       child: CircleAvatar(
                         backgroundImage: AssetImage(
-                          'assets/images/profile_pics/Layer1804.png',
+                          'assets/plc_profile.png',
                         ),
                       ),
                     ),

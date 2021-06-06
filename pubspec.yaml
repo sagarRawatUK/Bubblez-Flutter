@@ -41,10 +41,16 @@ dependencies:
   flutter_phoenix:
 
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.8.0"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon.png"
+
 
 
 # For information on the generic Dart part of this file, see the
@@ -78,6 +84,9 @@ flutter:
     - family: Poppins
       fonts:
         - asset: fonts/Poppins-Regular.ttf
+        - asset: fonts/Poppins-Medium.ttf
+        - asset: fonts/Poppins-SemiBold.ttf
+
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

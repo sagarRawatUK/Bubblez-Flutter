@@ -69,7 +69,7 @@ class ChatGroupTabScreen extends StatelessWidget {
                             builder:
                                 (BuildContext context, AsyncSnapshot snapshot) {
                               Provider.of<ChatroomHelpers>(context,
-                                      listen: true)
+                                      listen: false)
                                   .showLastMessageTime(
                                       snapshot.data.docs.first.data()['time']);
                               return snapshot.connectionState ==

@@ -1,7 +1,5 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
-import 'package:bubblez/auth/authMethods/Authentication.dart';
 import 'package:bubblez/auth/authMethods/FirebaseOperations.dart';
-import 'package:bubblez/home/components/postOperations/uploadPost.dart';
 import 'package:bubblez/home/home.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UpdatePostScreen extends StatefulWidget {
-  DocumentSnapshot snapshot;
+  final DocumentSnapshot snapshot;
   UpdatePostScreen(this.snapshot);
   @override
   _UpdatePostScreenState createState() => _UpdatePostScreenState();

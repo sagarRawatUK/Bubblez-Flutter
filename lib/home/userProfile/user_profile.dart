@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 import '../comments.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  String useruid;
+  final String useruid;
   UserProfileScreen(this.useruid);
   @override
   _UserProfileScreenState createState() => _UserProfileScreenState();

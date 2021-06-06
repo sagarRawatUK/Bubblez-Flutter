@@ -1,7 +1,6 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:bubblez/auth/authMethods/Authentication.dart';
 import 'package:bubblez/auth/register/register.dart';
-import 'package:bubblez/components/custom_button.dart';
 import 'package:bubblez/home/home.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:flutter/material.dart';
@@ -30,27 +29,35 @@ class _LoginState extends State<Login> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(height: 15),
+                  SizedBox(height: 35),
                   Container(
                       height: bHeight * 0.2,
                       width: double.infinity,
                       child: Center(
-                        child: Text(
-                          "Bubblez",
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.black,
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              height: 60,
+                              child: Image.asset(
+                                "assets/icon.png",
+                              ),
+                            ),
+                            Text(
+                              "ubblez",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(
+                                      color: Colors.black,
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 1.5),
+                            ),
+                          ],
                         ),
                       )),
-                  SizedBox(height: 45),
-                  // Text(
-                  //   "Enter your Details",
-                  //   style: theme.textTheme.button.copyWith(
-                  //     color: Colors.black,
-                  //     fontWeight: FontWeight.normal,
-                  //   ),
-                  // ),
+                  SizedBox(height: 35),
                   TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
@@ -73,24 +80,24 @@ class _LoginState extends State<Login> {
                           isDense: true,
                         ),
                       ),
-                      Positioned(
-                        bottom: 10,
-                        right: 10,
-                        child: GestureDetector(
-                          // onTap: () {
-                          //   Navigator.of(context)
-                          //       .push(_createPageRoute(ForgotPasswordScreen()));
-                          // },
-                          child: Text(
-                            "Forgot?",
-                            style: theme.textTheme.button.copyWith(
-                              color: theme.primaryColor,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Positioned(
+                      //   bottom: 10,
+                      //   right: 10,
+                      //   child: GestureDetector(
+                      //     // onTap: () {
+                      //     //   Navigator.of(context)
+                      //     //       .push(_createPageRoute(ForgotPasswordScreen()));
+                      //     // },
+                      //     child: Text(
+                      //       "Forgot?",
+                      //       style: theme.textTheme.button.copyWith(
+                      //         color: theme.primaryColor,
+                      //         fontSize: 13,
+                      //         fontWeight: FontWeight.w600,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   SizedBox(height: 30),
@@ -125,60 +132,60 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Register()));
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black,
-                          style: BorderStyle.solid,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      margin: EdgeInsets.only(top: 10),
-                      child: Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsetsDirectional.only(start: 15),
-                            height: 25,
-                            child: Image.asset("assets/ic_google.png"),
-                          ),
-                          Spacer(),
-                          Text(
-                            "Sign in with Google",
-                            style: theme.textTheme.button.copyWith(
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          Spacer(
-                            flex: 2,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 45),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     Navigator.push(context,
+                  //         MaterialPageRoute(builder: (context) => Register()));
+                  //   },
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //       border: Border.all(
+                  //         color: Colors.black,
+                  //         style: BorderStyle.solid,
+                  //         width: 1,
+                  //       ),
+                  //       borderRadius: BorderRadius.circular(10),
+                  //     ),
+                  //     alignment: Alignment.center,
+                  //     padding: EdgeInsets.symmetric(vertical: 15),
+                  //     margin: EdgeInsets.only(top: 10),
+                  //     child: Row(
+                  //       children: [
+                  //         Container(
+                  //           margin: EdgeInsetsDirectional.only(start: 15),
+                  //           height: 25,
+                  //           child: Image.asset("assets/ic_google.png"),
+                  //         ),
+                  //         Spacer(),
+                  //         Text(
+                  //           "Sign in with Google",
+                  //           style: theme.textTheme.button.copyWith(
+                  //             color: Colors.black,
+                  //             fontWeight: FontWeight.normal,
+                  //           ),
+                  //         ),
+                  //         Spacer(
+                  //           flex: 2,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.only(top: 14, bottom: 14),
                     child: Text("Or",
                         style:
                             theme.textTheme.headline6.copyWith(fontSize: 14)),
                   ),
-                  SizedBox(height: 20),
-                  Text(
-                    "New User?",
-                    style: theme.textTheme.button.copyWith(
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
+                  // SizedBox(height: 20),
+                  // Text(
+                  //   "New User?",
+                  //   style: theme.textTheme.button.copyWith(
+                  //     fontSize: 13,
+                  //     color: Colors.black,
+                  //     fontWeight: FontWeight.normal,
+                  //   ),
+                  // ),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(context,

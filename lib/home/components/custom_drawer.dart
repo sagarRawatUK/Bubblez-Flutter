@@ -1,6 +1,5 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:bubblez/auth/authMethods/Authentication.dart';
-import 'package:bubblez/auth/login/login.dart';
 import 'package:bubblez/home/profile/my_profile_screen.dart';
 import 'package:bubblez/home/profile/edit_profile.dart';
 import 'package:bubblez/style/colors.dart';

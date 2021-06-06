@@ -120,9 +120,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
               ),
               SizedBox(height: 60),
               GestureDetector(
-                // onTap: () {
-                //   Navigator.of(context).push(_createPageRoute(HomeScreen()));
-                // },
                 child: Container(
                   decoration: BoxDecoration(
                     color: theme.primaryColor,
@@ -168,23 +165,4 @@ class _VerificationScreenState extends State<VerificationScreen> {
       ),
     );
   }
-
-  // Route _createPageRoute(page) {
-  //   return PageRouteBuilder(
-  //     pageBuilder: (context, animation, secondaryAnimation) => page,
-  //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-  //       var begin = Offset(0.0, 1.0);
-  //       var end = Offset(0.0, 0.0);
-  //       var curve = Curves.bounceIn;
-
-  //       var tween =
-  //           Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-  //       return SlideTransition(
-  //         position: animation.drive(tween),
-  //         child: child,
-  //       );
-  //     },
-  //   );
-  // }
 }

@@ -1,5 +1,4 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
-import 'package:bubblez/auth/authMethods/Authentication.dart';
 import 'package:bubblez/auth/authMethods/FirebaseOperations.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:flutter/material.dart';

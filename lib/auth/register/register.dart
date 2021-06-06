@@ -22,15 +22,6 @@ class Register extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("New User", style: theme.textTheme.headline6),
-          // SizedBox(
-          //   height: 10,
-          // ),
-          // Text(
-          //   "Register Now to continue",
-          //   style: theme.textTheme.headline6
-          //       .copyWith(fontSize: 12, color: theme.hintColor),
-          //   textAlign: TextAlign.center,
-          // ),
         ],
       ),
       elevation: 0,
@@ -73,11 +64,15 @@ class Register extends StatelessWidget {
                       },
                       child: CircleAvatar(
                         radius: 70,
-                        backgroundColor: Colors.grey,
-                        backgroundImage: AssetImage("assets/plc_profile.png"),
+                        backgroundColor: Colors.grey[300],
+                        child: Icon(
+                          Icons.person_add,
+                          color: Colors.white,
+                          size: 60,
+                        ),
                       )),
               // Text('Register now to continue', textAlign: TextAlign.center),
-              SizedBox(height: 20),
+              SizedBox(height: 30),
               TextField(
                 controller: _fullNameController,
                 decoration: InputDecoration(
@@ -96,30 +91,7 @@ class Register extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              // DropdownButton(
-              //   elevation: 1,
-              //   isExpanded: true,
-              //   value: _selectedGender,
-              //   hint: Text(S.of(context).Select_Gender),
-              //   style: theme.textTheme.bodyText2
-              //       .copyWith(color: theme.hintColor, fontSize: 15),
-              //   items: [
-              //     DropdownMenuItem(
-              //       child: Text(S.of(context).male),
-              //       value: S.of(context).male,
-              //     ),
-              //     DropdownMenuItem(
-              //       child: Text(S.of(context).female),
-              //       value: S.of(context).female,
-              //     ),
-              //   ],
-              //   onChanged: (val) {
-              //     setState(() {
-              //       _selectedGender = val;
-              //     });
-              //     print(_selectedGender);
-              //   },
-              // ),
+
               TextField(
                 controller: _passwordController,
                 decoration: InputDecoration(
@@ -147,9 +119,6 @@ class Register extends StatelessWidget {
                         .createAccount(
                             _emailController.text, _passwordController.text)
                         .whenComplete(() {
-                      // print("???????????????????????????????????????????????" +
-                      //     Provider.of<ImageSelect>(context, listen: false)
-                      //         .getUserAvatarUrl);
                       print('Creating collection...');
                       Provider.of<FirebaseOperations>(context, listen: false)
                           .createUserCollection(context, {
@@ -186,20 +155,20 @@ class Register extends StatelessWidget {
                     "Register Now",
                     style: theme.textTheme.button.copyWith(
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: Text(
-                  "We'll send verification code",
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.subtitle2
-                      .copyWith(fontSize: 12, color: theme.hintColor),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(30.0),
+              //   child: Text(
+              //     "We'll send verification code",
+              //     textAlign: TextAlign.center,
+              //     style: theme.textTheme.subtitle2
+              //         .copyWith(fontSize: 12, color: theme.hintColor),
+              //   ),
+              // ),
             ],
           ),
         ),

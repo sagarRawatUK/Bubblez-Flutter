@@ -1,5 +1,6 @@
 import 'package:bubblez/home/components/post/text_post.dart';
 import 'package:bubblez/home/components/postOperations/uploadPost.dart';
+import 'package:bubblez/home/components/story_screen_tab_content/story_helper.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,8 +9,9 @@ import 'package:provider/provider.dart';
 
 class CustomHomeFloatingActionButton extends StatefulWidget {
   Function _updateBottomSheetInstance;
+  int index;
 
-  CustomHomeFloatingActionButton(this._updateBottomSheetInstance);
+  CustomHomeFloatingActionButton(this._updateBottomSheetInstance, this.index);
 
   @override
   _CustomHomeFloatingActionButtonState createState() =>
@@ -45,15 +47,21 @@ class _CustomHomeFloatingActionButtonState
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Provider.of<UploadPost>(context, listen: false)
-                          .pickUploadPostImage(context, ImageSource.camera);
+                      widget.index == 0
+                          ? Provider.of<UploadPost>(context, listen: false)
+                              .pickUploadPostImage(context, ImageSource.camera)
+                          : Provider.of<StoryHelpers>(context, listen: false)
+                              .selectStoryImage(context, ImageSource.camera);
                     },
                     child: Icon(Icons.camera_alt),
                   ),
                   GestureDetector(
                     onTap: () {
-                      Provider.of<UploadPost>(context, listen: false)
-                          .pickUploadPostImage(context, ImageSource.camera);
+                      widget.index == 0
+                          ? Provider.of<UploadPost>(context, listen: false)
+                              .pickUploadPostImage(context, ImageSource.camera)
+                          : Provider.of<StoryHelpers>(context, listen: false)
+                              .selectStoryImage(context, ImageSource.camera);
                     },
                     child: FaIcon(
                       FontAwesomeIcons.video,
@@ -62,8 +70,11 @@ class _CustomHomeFloatingActionButtonState
                   ),
                   GestureDetector(
                     onTap: () {
-                      Provider.of<UploadPost>(context, listen: false)
-                          .pickUploadPostImage(context, ImageSource.gallery);
+                      widget.index == 0
+                          ? Provider.of<UploadPost>(context, listen: false)
+                              .pickUploadPostImage(context, ImageSource.gallery)
+                          : Provider.of<StoryHelpers>(context, listen: false)
+                              .selectStoryImage(context, ImageSource.gallery);
                     },
                     child: Icon(Icons.image),
                   ),

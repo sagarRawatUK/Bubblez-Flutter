@@ -266,7 +266,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       endDrawer: MyDrawer(),
       body: _bottomBarContentList[_bottombarIndex],
       floatingActionButton: _bottombarIndex == 0 || _bottombarIndex == 1
-          ? CustomHomeFloatingActionButton(_updateBottomSheetInstance)
+          ? CustomHomeFloatingActionButton(
+              _updateBottomSheetInstance, _bottombarIndex)
           : _bottombarIndex == 3
               ? FadedScaleAnimation(
                   CustomChatFloatingActionButton(_tabbarselectedIndex))

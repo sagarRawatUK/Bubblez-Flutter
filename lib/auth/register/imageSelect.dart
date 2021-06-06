@@ -45,16 +45,6 @@ class ImageSelect with ChangeNotifier {
               },
               child: Icon(Icons.camera_alt),
             ),
-            // GestureDetector(
-            //   onTap: () {
-            //     Navigator.of(context).push(
-            //         MaterialPageRoute(builder: (context) => UploadScreen()));
-            //   },
-            //   child: FaIcon(
-            //     FontAwesomeIcons.video,
-            //     size: 20,
-            //   ),
-            // ),
             GestureDetector(
               onTap: () {
                 pickUserAvatar(context, ImageSource.gallery).whenComplete(

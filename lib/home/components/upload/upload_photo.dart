@@ -23,19 +23,6 @@ class UploadPhotoTab extends StatelessWidget {
                         child: Image.file(
                             Provider.of<UploadPost>(context).uploadPostImage)),
                   ),
-                  // Positioned(
-                  //   bottom: 10,
-                  //   left: 10,
-                  //   child: Icon(Icons.grid_on),
-                  // ),
-                  // Positioned(
-                  //   bottom: 10,
-                  //   right: 10,
-                  //   child: FaIcon(
-                  //     FontAwesomeIcons.retweet,
-                  //     size: 20,
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -45,11 +32,6 @@ class UploadPhotoTab extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Icon(
-                  //   Icons.mic,
-                  //   color: Colors.grey,
-                  //   size: theme.primaryIconTheme.size,
-                  // ),
                   RawMaterialButton(
                     onPressed: () {
                       Provider.of<UploadPost>(context, listen: false)
@@ -65,11 +47,6 @@ class UploadPhotoTab extends StatelessWidget {
                       size: 25,
                     ),
                   ),
-                  // Icon(
-                  //   Icons.flash_off,
-                  //   color: Colors.grey,
-                  //   size: theme.primaryIconTheme.size,
-                  // ),
                 ],
               ),
             ),

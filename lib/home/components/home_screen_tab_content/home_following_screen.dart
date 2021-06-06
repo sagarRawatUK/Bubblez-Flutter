@@ -299,23 +299,6 @@ class HomeFollowingTabScreen extends StatelessWidget {
                                           }),
                                     ],
                                   ),
-                                  // Row(
-                                  //   children: [
-                                  //     FaIcon(
-                                  //       Icons.repeat_rounded,
-                                  //       color: grey,
-                                  //       size: 20,
-                                  //     ),
-                                  //     SizedBox(width: 8.5),
-                                  //     Text(
-                                  //       '287',
-                                  //       style: TextStyle(
-                                  //           color: grey,
-                                  //           fontSize: 12,
-                                  //           letterSpacing: 0.5),
-                                  //     ),
-                                  //   ],
-                                  // ),
                                   Row(
                                     children: [
                                       IconButton(

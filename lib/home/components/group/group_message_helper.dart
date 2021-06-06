@@ -1,5 +1,6 @@
 import 'package:bubblez/auth/authMethods/Authentication.dart';
 import 'package:bubblez/auth/authMethods/FirebaseOperations.dart';
+import 'package:bubblez/home/components/chat_tabs/chat_group_tab_screen.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -97,6 +98,7 @@ class GroupMessageHelpers with ChangeNotifier {
             GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
+                  Navigator.pop(context);
                 },
                 child: Text(
                   "Cancel",
@@ -116,5 +118,56 @@ class GroupMessageHelpers with ChangeNotifier {
     DateTime dateTime = t.toDate();
     lastMessageTime = timeago.format(dateTime);
     notifyListeners();
+  }
+
+  leaveTheRoom(BuildContext context, String chatRoomName) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: Text('Leave $chatRoomName?',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w500)),
+            actions: [
+              MaterialButton(
+                  child: Text('No',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.0)),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
+              MaterialButton(
+                  color: primaryColor,
+                  child: Text('Yes',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.0)),
+                  onPressed: () {
+                    FirebaseFirestore.instance
+                        .collection('chatrooms')
+                        .doc(chatRoomName)
+                        .collection('members')
+                        .doc(Provider.of<Authentication>(context, listen: false)
+                            .getUserUid)
+                        .delete()
+                        .whenComplete(() {
+                      // Navigator.pushReplacement(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => ChatGroupTabScreen()));
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    });
+                  })
+            ],
+          );
+        });
   }
 }

@@ -1,5 +1,6 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:bubblez/auth/authMethods/Authentication.dart';
+import 'package:bubblez/home/components/group/group_message_helper.dart';
 import 'package:bubblez/home/userProfile/user_profile.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,17 +24,25 @@ class GroupItems {
 
 class _GroupInfoScreenState extends State<GroupInfoScreen> {
   bool _muteNotiVal = true;
+  String uid;
+
+  @override
+  void initState() {
+    FirebaseFirestore.instance
+        .collection('chatrooms')
+        .doc(widget.documentSnapshot.id)
+        .get()
+        .then((value) {
+      setState(() {
+        uid = value.data()['useruid'];
+        print(Provider.of<Authentication>(context, listen: false).getUserUid);
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<GroupItems> _groupItems = [
-      GroupItems('assets/images/Layer949.png', 'Emili'),
-      GroupItems('assets/images/Layer946.png', 'Harsh'),
-      GroupItems('assets/images/Layer946.png', 'David'),
-      GroupItems('assets/images/Layer948.png', 'Whie'),
-      GroupItems('assets/images/Layer949.png', 'Marie'),
-      GroupItems('assets/images/Layer949.png', 'Marie'),
-    ];
     final theme = Theme.of(context);
     final mediaQuery = MediaQuery.of(context);
     final myAppBar = AppBar(
@@ -51,13 +60,71 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
         icon: Icon(Icons.chevron_left),
       ),
       actions: [
-        FlatButton(
-          onPressed: () {},
-          child: Text(
-            "Edit",
-            style: theme.textTheme.button.copyWith(color: theme.primaryColor),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: TextButton(
+            onPressed: () {
+              Provider.of<GroupMessageHelpers>(context, listen: false)
+                  .leaveTheRoom(context, widget.documentSnapshot.id);
+            },
+            child: Text(
+              "Leave",
+              style: theme.textTheme.button.copyWith(color: theme.primaryColor),
+            ),
           ),
         ),
+        Provider.of<Authentication>(context, listen: false).getUserUid != uid
+            ? SizedBox.shrink()
+            : TextButton(
+                onPressed: () {
+                  return AlertDialog(
+                    backgroundColor: Colors.white,
+                    title: Text(
+                        'Delete  ${widget.documentSnapshot.data()['roomname']}?',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w500)),
+                    actions: [
+                      MaterialButton(
+                          child: Text('No',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14.0)),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                      MaterialButton(
+                          color: primaryColor,
+                          child: Text('Yes',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14.0)),
+                          onPressed: () {
+                            FirebaseFirestore.instance
+                                .collection('chatrooms')
+                                .doc(widget.documentSnapshot.id)
+                                .delete()
+                                .whenComplete(() {
+                              // Navigator.pushReplacement(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => ChatGroupTabScreen()));
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            });
+                          })
+                    ],
+                  );
+                },
+                child: Icon(
+                  Icons.delete,
+                  color: primaryColor,
+                  size: 20,
+                )),
       ],
     );
     final bheight = mediaQuery.size.height -
@@ -265,9 +332,19 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
                                     ),
                                   ),
                                   subtitle: Text(
-                                    "Member",
+                                    Provider.of<Authentication>(context)
+                                                .getUserUid !=
+                                            documentSnapshot.data()['useruid']
+                                        ? "Member"
+                                        : "Admin",
                                     style: theme.textTheme.subtitle2.copyWith(
-                                      color: theme.hintColor,
+                                      color:
+                                          Provider.of<Authentication>(context)
+                                                      .getUserUid !=
+                                                  documentSnapshot
+                                                      .data()['useruid']
+                                              ? theme.hintColor
+                                              : Colors.green,
                                       fontSize: 10,
                                     ),
                                   ),
