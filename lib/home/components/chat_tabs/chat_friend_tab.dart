@@ -2,9 +2,12 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:bubblez/auth/authMethods/Authentication.dart';
+import 'package:bubblez/auth/authMethods/FirebaseOperations.dart';
 import 'package:bubblez/home/chatroom/chat_screen.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ChatItems {
   String image;
@@ -17,15 +20,42 @@ class ChatFriendTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<ChatItems> _chatItems = [
-      ChatItems('assets/images/Layer707.png', 'Emili Williamson'),
-      ChatItems('assets/images/Layer709.png', 'Harshu Makkar'),
-      ChatItems('assets/images/Layer948.png', 'Mrs. White'),
-      ChatItems('assets/images/Layer884.png', 'Marie Black'),
-      ChatItems('assets/images/Layer915.png', 'Emili Williamson'),
-      ChatItems('assets/images/Layer946.png', 'Emili Williamson'),
-      ChatItems('assets/images/Layer948.png', 'Emili Williamson'),
-      ChatItems('assets/images/Layer949.png', 'Emili Williamson'),
-      ChatItems('assets/images/Layer950.png', 'Emili Williamson'),
+      ChatItems(
+          Provider.of<FirebaseOperations>(context, listen: false)
+              .getInitUserImage,
+          'Emili Williamson'),
+      ChatItems(
+          Provider.of<FirebaseOperations>(context, listen: false)
+              .getInitUserImage,
+          'Harshu Makkar'),
+      ChatItems(
+          Provider.of<FirebaseOperations>(context, listen: false)
+              .getInitUserImage,
+          'Mrs. White'),
+      ChatItems(
+          Provider.of<FirebaseOperations>(context, listen: false)
+              .getInitUserImage,
+          'Marie Black'),
+      ChatItems(
+          Provider.of<FirebaseOperations>(context, listen: false)
+              .getInitUserImage,
+          'Emili Williamson'),
+      ChatItems(
+          Provider.of<FirebaseOperations>(context, listen: false)
+              .getInitUserImage,
+          'Emili Williamson'),
+      ChatItems(
+          Provider.of<FirebaseOperations>(context, listen: false)
+              .getInitUserImage,
+          'Emili Williamson'),
+      ChatItems(
+          Provider.of<FirebaseOperations>(context, listen: false)
+              .getInitUserImage,
+          'Emili Williamson'),
+      ChatItems(
+          Provider.of<FirebaseOperations>(context, listen: false)
+              .getInitUserImage,
+          'Emili Williamson'),
     ];
     final theme = Theme.of(context);
     return Container(
@@ -52,7 +82,7 @@ class ChatFriendTabScreen extends StatelessWidget {
                     child: FadedScaleAnimation(
                       CircleAvatar(
                         radius: 24,
-                        backgroundImage: AssetImage(_chatItems[index].image),
+                        backgroundImage: NetworkImage(_chatItems[index].image),
                       ),
                     ),
                   ),
@@ -86,7 +116,7 @@ class ChatFriendTabScreen extends StatelessWidget {
                 ),
               ),
               subtitle: Text(
-                "yesThatWasAwesome",
+                "Last Message",
                 style: theme.textTheme.subtitle2.copyWith(
                   color: theme.hintColor,
                   fontSize: 10.7,

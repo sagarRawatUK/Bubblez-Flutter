@@ -39,6 +39,7 @@ dependencies:
   image_picker: ^0.6.7+17
   timeago:
   flutter_phoenix:
+  circular_countdown_timer: ^0.2.0
 
 
 dev_dependencies:

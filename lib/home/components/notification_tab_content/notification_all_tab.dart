@@ -24,8 +24,7 @@ class NotificationAllTabScreen extends StatelessWidget {
                   child: FadedScaleAnimation(
                     CircleAvatar(
                       radius: 22,
-                      backgroundImage: AssetImage(
-                          'assets/images/profile_pics/Layer1804.png'),
+                      backgroundImage: AssetImage('assets/plc_profile.png'),
                     ),
                   ),
                 ),
@@ -64,7 +63,7 @@ class NotificationAllTabScreen extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(7),
                     child: Image.asset(
-                      'assets/images/Layer709.png',
+                      'assets/plc_profile.png',
                       fit: BoxFit.fitHeight,
                     ),
                   ),

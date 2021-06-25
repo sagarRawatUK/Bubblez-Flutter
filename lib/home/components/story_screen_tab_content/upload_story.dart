@@ -47,9 +47,7 @@ class UploadStoryTab extends StatelessWidget {
                           null) {
                         await FirebaseFirestore.instance
                             .collection('stories')
-                            .doc(Provider.of<Authentication>(context,
-                                    listen: false)
-                                .getUserUid)
+                            .doc()
                             .set({
                           'image':
                               Provider.of<StoryHelpers>(context, listen: false)
@@ -64,13 +62,6 @@ class UploadStoryTab extends StatelessWidget {
                           'useruid': Provider.of<Authentication>(context,
                                   listen: false)
                               .getUserUid
-                        }).whenComplete(() {
-                          // Navigator.pushReplacement(
-                          //     context,
-                          //     PageTransition(
-                          //         child: Homepage(),
-                          //         type: PageTransitionType
-                          //             .bottomToTop));
                         });
                       }
                       Navigator.pop(context);
