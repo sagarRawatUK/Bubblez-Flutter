@@ -1,3 +1,4 @@
+import 'package:bubblez/home/components/search/search.dart';
 import 'package:bubblez/home/components/story_screen_tab_content/story_following_tab.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class StoryScreenTabbarView extends StatelessWidget {
     return TabBarView(
       controller: _tabController,
       children: [
-        StoryFollowingTabScreen(_bHeight),
+        Search(),
         StoryFollowingTabScreen(_bHeight),
         StoryFollowingTabScreen(_bHeight),
         StoryFollowingTabScreen(_bHeight),

@@ -12,6 +12,7 @@ import 'auth/authMethods/Authentication.dart';
 import 'auth/authMethods/FirebaseOperations.dart';
 import 'home/components/postOperations/postFunctions.dart';
 import 'home/components/postOperations/uploadPost.dart';
+import 'home/components/search/search_helpers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +33,7 @@ class Bubblez extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ChatroomHelpers()),
         ChangeNotifierProvider(create: (_) => GroupMessageHelpers()),
         ChangeNotifierProvider(create: (_) => StoryHelpers()),
-
+        ChangeNotifierProvider(create: (_) => SearchHelpers()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

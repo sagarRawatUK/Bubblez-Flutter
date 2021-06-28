@@ -8,8 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class CustomHomeFloatingActionButton extends StatefulWidget {
-  Function _updateBottomSheetInstance;
-  int index;
+  final Function _updateBottomSheetInstance;
+  final int index;
 
   CustomHomeFloatingActionButton(this._updateBottomSheetInstance, this.index);
 
