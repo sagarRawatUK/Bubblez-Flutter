@@ -114,7 +114,10 @@ class Register extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  if (_emailController.text.isNotEmpty) {
+                  if (_emailController.text.isNotEmpty &&
+                      _fullNameController.text.isNotEmpty &&
+                      _passwordController.text.isNotEmpty &&
+                      _phoneNumberController.text.isNotEmpty) {
                     Provider.of<Authentication>(context, listen: false)
                         .createAccount(
                             _emailController.text, _passwordController.text)

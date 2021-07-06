@@ -1,5 +1,6 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:bubblez/auth/authMethods/FirebaseOperations.dart';
+import 'package:bubblez/auth/authMethods/SetData.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,6 +15,8 @@ import 'components/tabbars_view/notification_page_tabbar_view.dart';
 import 'components/tabbars_view/story_page_tabbar_view.dart';
 
 class HomeScreen extends StatefulWidget {
+  bool userLogged;
+  HomeScreen([this.userLogged = false]);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -29,6 +32,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    if (widget.userLogged) {
+      Provider.of<SetData>(context, listen: false).getAllSharedPrefs(context);
+    }
     Provider.of<FirebaseOperations>(context, listen: false)
         .initUserData(context);
     super.initState();

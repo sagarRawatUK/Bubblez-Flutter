@@ -1,8 +1,10 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:bubblez/auth/authMethods/Authentication.dart';
 import 'package:bubblez/auth/authMethods/FirebaseOperations.dart';
+import 'package:bubblez/home/chatroom/chat_screen.dart';
 import 'package:bubblez/home/components/post/editPost.dart';
 import 'package:bubblez/home/components/postOperations/postFunctions.dart';
+import 'package:bubblez/home/components/search/search_helpers.dart';
 import 'package:bubblez/home/follow/follow.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -198,7 +200,30 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Provider.of<SearchHelpers>(context,
+                                                listen: false)
+                                            .sendToChatroom(
+                                                context: context,
+                                                useruid: snapshot.data
+                                                    .data()['useruid'],
+                                                userName: snapshot.data
+                                                    .data()['username'],
+                                                myName: Provider.of<
+                                                            FirebaseOperations>(
+                                                        context,
+                                                        listen: false)
+                                                    .getInitUserName);
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ChatSingleScreen(Provider
+                                                            .of<SearchHelpers>(
+                                                                context,
+                                                                listen: false)
+                                                        .roomId)));
+                                      },
                                       child: Container(
                                         width: constraints.maxWidth * 0.35,
                                         decoration: BoxDecoration(

@@ -1,3 +1,4 @@
+import 'package:bubblez/auth/authMethods/Authentication.dart';
 import 'package:bubblez/home/components/search/search_helpers.dart';
 import 'package:bubblez/home/userProfile/user_profile.dart';
 import 'package:bubblez/style/colors.dart';
@@ -68,11 +69,15 @@ class Search extends StatelessWidget {
                               .searchusers;
                       return GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UserProfileScreen(
-                                      snapshots.docs[index].get('useruid'))));
+                          if (snapshots.docs[index].get('useruid') !=
+                              Provider.of<Authentication>(context,
+                                      listen: false)
+                                  .getUserUid)
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UserProfileScreen(
+                                        snapshots.docs[index].get('useruid'))));
                         },
                         child: Container(
                             margin: EdgeInsets.only(top: 10),

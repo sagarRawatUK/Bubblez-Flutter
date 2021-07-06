@@ -1,5 +1,7 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:bubblez/auth/authMethods/Authentication.dart';
+import 'package:bubblez/auth/authMethods/FirebaseOperations.dart';
+import 'package:bubblez/auth/authMethods/SharedPrefs.dart';
 import 'package:bubblez/auth/register/register.dart';
 import 'package:bubblez/home/home.dart';
 import 'package:bubblez/style/colors.dart';
@@ -50,7 +52,7 @@ class _LoginState extends State<Login> {
                                   .bodyText1
                                   .copyWith(
                                       color: Colors.black,
-                                      fontSize: 35,
+                                      fontSize: 40,
                                       fontWeight: FontWeight.w500,
                                       letterSpacing: 1.5),
                             ),
@@ -103,15 +105,44 @@ class _LoginState extends State<Login> {
                   SizedBox(height: 30),
                   GestureDetector(
                     onTap: () {
-                      if (_emailController.text.isNotEmpty) {
+                      if (_emailController.text.isNotEmpty &&
+                          _passwordController.text.isNotEmpty) {
                         Provider.of<Authentication>(context, listen: false)
                             .logIntoAccount(
                                 _emailController.text, _passwordController.text)
                             .whenComplete(() {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomeScreen()));
+                          if (Provider.of<Authentication>(context,
+                                      listen: false)
+                                  .getUserUid !=
+                              null) {
+                            SharedPrefs.setAllSharedPrefs(
+                              true,
+                              Provider.of<FirebaseOperations>(context,
+                                      listen: false)
+                                  .getInitUserName,
+                              Provider.of<FirebaseOperations>(context,
+                                      listen: false)
+                                  .getInitUserFullName,
+                              Provider.of<FirebaseOperations>(context,
+                                      listen: false)
+                                  .getInitUserEmail,
+                              Provider.of<Authentication>(context,
+                                      listen: false)
+                                  .getUserUid,
+                              Provider.of<FirebaseOperations>(context,
+                                      listen: false)
+                                  .getInitUserImage,
+                              Provider.of<FirebaseOperations>(context,
+                                      listen: false)
+                                  .getInitUserPhone,
+                            );
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScreen()));
+                          } else
+                            warningText(
+                                context, 'Incorrect Email or Password!');
                         });
                       } else {
                         warningText(context, 'Fill all the data!');

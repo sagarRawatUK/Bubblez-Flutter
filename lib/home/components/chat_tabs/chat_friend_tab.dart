@@ -1,11 +1,13 @@
-import 'dart:math';
-
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:bubblez/auth/authMethods/Authentication.dart';
 import 'package:bubblez/auth/authMethods/FirebaseOperations.dart';
 import 'package:bubblez/home/chatroom/chat_screen.dart';
 import 'package:bubblez/style/colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'chat_helpers.dart';
 
 class ChatItems {
   String image;
@@ -17,118 +19,102 @@ class ChatItems {
 class ChatFriendTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<ChatItems> _chatItems = [
-      ChatItems(
-          Provider.of<FirebaseOperations>(context, listen: false)
-              .getInitUserImage,
-          'Emili Williamson'),
-      ChatItems(
-          Provider.of<FirebaseOperations>(context, listen: false)
-              .getInitUserImage,
-          'Harshu Makkar'),
-      ChatItems(
-          Provider.of<FirebaseOperations>(context, listen: false)
-              .getInitUserImage,
-          'Mrs. White'),
-      ChatItems(
-          Provider.of<FirebaseOperations>(context, listen: false)
-              .getInitUserImage,
-          'Marie Black'),
-      ChatItems(
-          Provider.of<FirebaseOperations>(context, listen: false)
-              .getInitUserImage,
-          'Emili Williamson'),
-      ChatItems(
-          Provider.of<FirebaseOperations>(context, listen: false)
-              .getInitUserImage,
-          'Emili Williamson'),
-      ChatItems(
-          Provider.of<FirebaseOperations>(context, listen: false)
-              .getInitUserImage,
-          'Emili Williamson'),
-      ChatItems(
-          Provider.of<FirebaseOperations>(context, listen: false)
-              .getInitUserImage,
-          'Emili Williamson'),
-      ChatItems(
-          Provider.of<FirebaseOperations>(context, listen: false)
-              .getInitUserImage,
-          'Emili Williamson'),
-    ];
     final theme = Theme.of(context);
-    return Container(
-      margin: EdgeInsets.only(top: 5),
-      child: ListView.builder(
-        itemCount: _chatItems.length,
-        itemBuilder: (context, index) {
-          bool _rand;
-          if ((Random().nextInt(10)) % 2 == 0) {
-            _rand = true;
-          } else {
-            _rand = false;
-          }
-          return Card(
-            child: ListTile(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ChatSingleScreen()));
-              },
-              leading: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                    child: FadedScaleAnimation(
-                      CircleAvatar(
-                        radius: 24,
-                        backgroundImage: NetworkImage(_chatItems[index].image),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: _rand
-                        ? Container(
-                            decoration: BoxDecoration(
-                              color: theme.primaryColor,
-                              shape: BoxShape.circle,
-                            ),
-                            padding: EdgeInsets.fromLTRB(4, 0, 4, 2),
-                            child: Center(
-                              child: Text(
-                                '${Random().nextInt(10)}',
-                                style: theme.textTheme.bodyText1
-                                    .copyWith(color: white, fontSize: 8),
+    return Scaffold(
+      body: Container(
+          margin: EdgeInsets.only(top: 5),
+          child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('chats')
+                  .where('usersuid',
+                      arrayContains:
+                          Provider.of<Authentication>(context, listen: false)
+                              .getUserUid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  return ListView(
+                    children: snapshot.data.docs
+                        .map((DocumentSnapshot documentSnapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else
+                        return ListTile(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    ChatSingleScreen(documentSnapshot.id)));
+                          },
+                          leading: Stack(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                                child: FadedScaleAnimation(
+                                  CircleAvatar(
+                                    radius: 24,
+                                    // backgroundImage: NetworkImage(
+                                    //     documentSnapshot.data()['roomavatar']),
+                                  ),
+                                ),
                               ),
-                            ),
-                          )
-                        : Container(),
-                  ),
-                ],
-              ),
-              title: Text(
-                _chatItems[index].name,
-                style: TextStyle(
-                  color: _rand ? theme.primaryColor : black,
-                  fontSize: 13.3,
-                ),
-              ),
-              subtitle: Text(
-                "Last Message",
-                style: theme.textTheme.subtitle2.copyWith(
-                  color: theme.hintColor,
-                  fontSize: 10.7,
-                ),
-              ),
-              trailing: Text(
-                "2 min ago",
-                style: theme.textTheme.bodyText1
-                    .copyWith(color: grey, fontSize: 9.3),
-              ),
-            ),
-          );
-        },
-      ),
+                            ],
+                          ),
+                          title: Text(
+                            documentSnapshot
+                                .data()['chatRoomId']
+                                .toString()
+                                .replaceAll("_", "")
+                                .replaceAll(
+                                    Provider.of<FirebaseOperations>(context,
+                                            listen: false)
+                                        .getInitUserName,
+                                    ""),
+                            style: TextStyle(color: black, fontSize: 14),
+                          ),
+                          subtitle: StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('chats')
+                                .doc(documentSnapshot.id)
+                                .collection('messages')
+                                .orderBy('time', descending: true)
+                                .snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              Provider.of<ChatroomHelpers>(context,
+                                      listen: false)
+                                  .showLastMessageTime(
+                                      snapshot.data.docs.first.data()['time']);
+                              return snapshot.connectionState ==
+                                      ConnectionState.waiting
+                                  ? Text('')
+                                  : Expanded(
+                                      child: Text(
+                                        snapshot.data.docs.first
+                                            .data()['message'],
+                                        overflow: TextOverflow.ellipsis,
+                                        style:
+                                            theme.textTheme.subtitle2.copyWith(
+                                          color: theme.hintColor,
+                                          fontSize: 11,
+                                        ),
+                                      ),
+                                    );
+                            },
+                          ),
+                          trailing: Text(
+                            Provider.of<ChatroomHelpers>(context, listen: false)
+                                    .getLatestMessageTime ??
+                                "",
+                            style: theme.textTheme.bodyText1
+                                .copyWith(color: grey, fontSize: 9),
+                          ),
+                        );
+                    }).toList(),
+                  );
+                }
+              })),
     );
   }
 }

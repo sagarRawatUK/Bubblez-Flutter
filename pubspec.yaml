@@ -40,6 +40,7 @@ dependencies:
   timeago:
   flutter_phoenix:
   circular_countdown_timer: ^0.2.0
+  shared_preferences:
 
 
 dev_dependencies:
