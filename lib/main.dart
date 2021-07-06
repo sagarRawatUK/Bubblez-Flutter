@@ -66,7 +66,7 @@ class _BubblezState extends State<Bubblez> {
         debugShowCheckedModeBanner: false,
         home: isUserLoggedIn != null
             ? isUserLoggedIn
-                ? HomeScreen()
+                ? HomeScreen(true)
                 : OnBoarding()
             : OnBoarding(),
         theme: themeData,

@@ -8,9 +8,28 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class ChatSingleScreen extends StatelessWidget {
+class ChatSingleScreen extends StatefulWidget {
   final String chatId;
   ChatSingleScreen(this.chatId);
+
+  @override
+  _ChatSingleScreenState createState() => _ChatSingleScreenState();
+}
+
+class _ChatSingleScreenState extends State<ChatSingleScreen> {
+  String senderUid;
+
+  @override
+  void initState() {
+    Stream<DocumentSnapshot> snapshot = FirebaseFirestore.instance
+        .collection('chats')
+        .doc(widget.chatId)
+        .snapshots();
+    senderUid = snapshot.first.toString();
+    print(senderUid);
+    super.initState();
+  }
+
   final TextEditingController messageTextController = TextEditingController();
 
   @override
@@ -30,14 +49,15 @@ class ChatSingleScreen extends StatelessWidget {
             child: FadedScaleAnimation(
               CircleAvatar(
                 backgroundImage: NetworkImage(
-                  Provider.of<FirebaseOperations>(context).getInitUserImage,
+                  Provider.of<FirebaseOperations>(context, listen: false)
+                      .getInitUserImage,
                 ),
               ),
             ),
           ),
           SizedBox(width: 10),
           Text(
-            chatId.toString().replaceAll("_", "").replaceAll(
+            widget.chatId.toString().replaceAll("_", "").replaceAll(
                 Provider.of<FirebaseOperations>(context, listen: false)
                     .getInitUserName,
                 ""),
@@ -73,7 +93,7 @@ class ChatSingleScreen extends StatelessWidget {
               child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('chats')
-                      .doc(chatId)
+                      .doc(widget.chatId)
                       .collection('messages')
                       .orderBy('time', descending: true)
                       .snapshots(),
@@ -256,39 +276,39 @@ class ChatSingleScreen extends StatelessWidget {
                                                   ? CrossAxisAlignment.end
                                                   : CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              Provider.of<Authentication>(
-                                                              context,
-                                                              listen: false)
-                                                          .getUserUid ==
-                                                      snapshot.data()['useruid']
-                                                  ? "you"
-                                                  : snapshot.data()['username'],
-                                              overflow: TextOverflow.ellipsis,
-                                              style: theme.textTheme.bodyText1
-                                                  .copyWith(
-                                                fontSize: 8,
-                                                color:
-                                                    Provider.of<Authentication>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .getUserUid ==
-                                                            snapshot.data()[
-                                                                'useruid']
-                                                        ? white
-                                                        : theme.primaryColor,
-                                              ),
-                                              textAlign:
-                                                  Provider.of<Authentication>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .getUserUid ==
-                                                          snapshot
-                                                              .data()['useruid']
-                                                      ? TextAlign.right
-                                                      : TextAlign.left,
-                                            ),
+                                            // Text(
+                                            //   Provider.of<Authentication>(
+                                            //                   context,
+                                            //                   listen: false)
+                                            //               .getUserUid ==
+                                            //           snapshot.data()['useruid']
+                                            //       ? "you"
+                                            //       : snapshot.data()['username'],
+                                            //   overflow: TextOverflow.ellipsis,
+                                            //   style: theme.textTheme.bodyText1
+                                            //       .copyWith(
+                                            //     fontSize: 8,
+                                            //     color:
+                                            //         Provider.of<Authentication>(
+                                            //                         context,
+                                            //                         listen:
+                                            //                             false)
+                                            //                     .getUserUid ==
+                                            //                 snapshot.data()[
+                                            //                     'useruid']
+                                            //             ? white
+                                            //             : theme.primaryColor,
+                                            //   ),
+                                            //   textAlign:
+                                            //       Provider.of<Authentication>(
+                                            //                       context,
+                                            //                       listen: false)
+                                            //                   .getUserUid ==
+                                            //               snapshot
+                                            //                   .data()['useruid']
+                                            //           ? TextAlign.right
+                                            //           : TextAlign.left,
+                                            // ),
                                             Text(
                                               snapshot.data()['message'],
                                               style: theme.textTheme.bodyText1
@@ -381,7 +401,7 @@ class ChatSingleScreen extends StatelessWidget {
                       if (messageTextController.text.isNotEmpty) {
                         Provider.of<SingleChatHelpers>(context, listen: false)
                             .sendMessage(
-                                context, chatId, messageTextController);
+                                context, widget.chatId, messageTextController);
                       }
                       messageTextController.clear();
                     },

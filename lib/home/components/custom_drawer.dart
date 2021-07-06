@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
@@ -114,12 +115,11 @@ class MyDrawer extends StatelessWidget {
                             ),
                             SizedBox(height: 30),
                             GestureDetector(
-                              onTap: () {
+                              onTap: () async {
+                                SharedPreferences sharedPreferences =
+                                    await SharedPreferences.getInstance();
+                                sharedPreferences.clear();
                                 Phoenix.rebirth(context);
-                                // Navigator.of(context).pop();
-                                // Navigator.of(context).pushReplacement(
-                                //     MaterialPageRoute(
-                                //         builder: (context) => Login()));
                               },
                               child: Container(
                                 width: double.infinity,

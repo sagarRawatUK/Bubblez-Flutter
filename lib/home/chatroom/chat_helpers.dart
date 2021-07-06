@@ -6,8 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class SingleChatHelpers with ChangeNotifier {
-  String lastMessageTime;
+  String lastMessageTime = "";
   String get getLastMessageTime => lastMessageTime;
+
   showLastMessageTime(dynamic timeData) {
     Timestamp t = timeData;
     DateTime dateTime = t.toDate();
