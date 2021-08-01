@@ -1,16 +1,4 @@
-# bubblez
+# Screenshots
 
-A new Flutter project.
+![1](https://user-images.githubusercontent.com/60035156/127763168-109a1984-a38e-4bfb-886c-a61052d5d282.jpg) ![2](https://user-images.githubusercontent.com/60035156/127763171-44be66b5-1ad6-4734-809c-48cee7b86d73.jpg) ![3](https://user-images.githubusercontent.com/60035156/127763173-a859b62f-19c4-47ff-be3c-3961e62c81cb.jpg) ![4](https://user-images.githubusercontent.com/60035156/127763176-d18d0020-0480-45fc-9f11-71e0e0333426.jpg) ![5](https://user-images.githubusercontent.com/60035156/127763181-b22ea275-fd36-4390-82e9-9e1d1e76b6c8.jpg) ![6](https://user-images.githubusercontent.com/60035156/127763185-67297e45-6f8c-4cb3-b26a-13894279268d.jpg) ![7](https://user-images.githubusercontent.com/60035156/127763191-bb8e5ab6-dd37-4cc8-b6e7-2dc3c35efeee.jpg) ![8](https://user-images.githubusercontent.com/60035156/127763192-2e2a56a0-777e-4ceb-92f2-76cba37604dd.jpg) ![9](https://user-images.githubusercontent.com/60035156/127763194-afc42715-47ef-4f10-8cca-4bd0796aa308.jpg) ![10](https://user-images.githubusercontent.com/60035156/127763197-e1ee8120-b966-40e2-aa12-c996ea4daf0a.jpg)
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
