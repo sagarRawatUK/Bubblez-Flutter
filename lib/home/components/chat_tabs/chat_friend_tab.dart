@@ -47,20 +47,20 @@ class ChatFriendTabScreen extends StatelessWidget {
                                 builder: (context) =>
                                     ChatSingleScreen(documentSnapshot.id)));
                           },
-                          leading: Stack(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                                child: FadedScaleAnimation(
-                                  CircleAvatar(
-                                    radius: 24,
-                                    // backgroundImage: NetworkImage(
-                                    //     documentSnapshot.data()['roomavatar']),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                          // leading: Stack(
+                          //   children: [
+                          //     Padding(
+                          //       padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                          //       child: FadedScaleAnimation(
+                          //         CircleAvatar(
+                          //           radius: 24,
+                          //           // backgroundImage: NetworkImage(
+                          //           //     documentSnapshot.data()['roomavatar']),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                           title: Text(
                             documentSnapshot
                                 .data()['chatRoomId']

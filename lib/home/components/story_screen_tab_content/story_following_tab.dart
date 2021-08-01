@@ -1,7 +1,6 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:bubblez/auth/authMethods/Authentication.dart';
 import 'package:bubblez/home/components/story_screen_tab_content/story_full_view.dart';
-import 'package:bubblez/home/profile/my_profile_screen.dart';
 import 'package:bubblez/home/userProfile/user_profile.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -74,23 +73,14 @@ class StoryFollowingTabScreen extends StatelessWidget {
                         ),
                         Positioned(
                           bottom: 20,
-                          right: 10,
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.remove_red_eye,
-                                size: iconSize18,
-                              ),
-                              SizedBox(width: 6),
-                              Text(
-                                "1.2k",
-                                style: TextStyle(
-                                    color: white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                    letterSpacing: 1),
-                              ),
-                            ],
+                          left: 60,
+                          child: Text(
+                            snapshot.data.docs[index]['username'],
+                            style: TextStyle(
+                              color: white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 10,
+                            ),
                           ),
                         ),
                       ],

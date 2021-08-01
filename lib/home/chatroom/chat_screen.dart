@@ -42,19 +42,19 @@ class _ChatSingleScreenState extends State<ChatSingleScreen> {
       backgroundColor: white,
       title: Row(
         children: [
-          Container(
-            height: 45,
-            margin: const EdgeInsets.symmetric(vertical: 4),
-            decoration: BoxDecoration(shape: BoxShape.circle),
-            child: FadedScaleAnimation(
-              CircleAvatar(
-                backgroundImage: NetworkImage(
-                  Provider.of<FirebaseOperations>(context, listen: false)
-                      .getInitUserImage,
-                ),
-              ),
-            ),
-          ),
+          // Container(
+          //   height: 45,
+          //   margin: const EdgeInsets.symmetric(vertical: 4),
+          //   decoration: BoxDecoration(shape: BoxShape.circle),
+          //   child: FadedScaleAnimation(
+          //     CircleAvatar(
+          //       backgroundImage: NetworkImage(
+          //         Provider.of<FirebaseOperations>(context, listen: false)
+          //             .getInitUserImage,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           SizedBox(width: 10),
           Text(
             widget.chatId.toString().replaceAll("_", "").replaceAll(

@@ -1,7 +1,10 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
+import 'package:bubblez/auth/authMethods/Authentication.dart';
 import 'package:bubblez/auth/login/login.dart';
+import 'package:bubblez/home/home.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class OnBoarding extends StatelessWidget {
   @override
@@ -89,7 +92,14 @@ class OnBoarding extends StatelessWidget {
                 ),
                 FadedScaleAnimation(
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Provider.of<Authentication>(context, listen: false)
+                          .signInWithGoogle()
+                          .whenComplete(() => Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreen())));
+                    },
                     child: Container(
                       padding: EdgeInsetsDirectional.only(start: 10),
                       height: 55,

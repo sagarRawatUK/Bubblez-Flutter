@@ -30,8 +30,7 @@ class Authentication with ChangeNotifier {
       print('Created account Uid => $userUid');
       print(firebaseAuth.currentUser.email);
     } catch (e) {
-      print("####################################################" +
-          e.toString());
+      print("###################################" + e.toString());
     }
     notifyListeners();
   }

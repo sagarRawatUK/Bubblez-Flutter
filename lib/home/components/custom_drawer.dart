@@ -1,15 +1,19 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:bubblez/auth/authMethods/Authentication.dart';
+import 'package:bubblez/auth/authMethods/FirebaseOperations.dart';
 import 'package:bubblez/home/profile/my_profile_screen.dart';
 import 'package:bubblez/home/profile/edit_profile.dart';
 import 'package:bubblez/style/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyDrawer extends StatelessWidget {
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -54,11 +58,22 @@ class MyDrawer extends StatelessWidget {
                             SizedBox(height: 20),
                             FadedScaleAnimation(
                               Container(
-                                child: CircleAvatar(
-                                  radius: 35,
-                                  backgroundImage: NetworkImage(
-                                      snapshot.data.data()['userimage']),
-                                ),
+                                child: Provider.of<FirebaseOperations>(context)
+                                            .getInitUserImage ==
+                                        null
+                                    ? CircleAvatar(
+                                        radius: 35,
+                                        backgroundImage: AssetImage(
+                                            "assets/plc_profile.png"),
+                                      )
+                                    : CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            Provider.of<FirebaseOperations>(
+                                                    context,
+                                                    listen: false)
+                                                .getInitUserImage),
+                                        radius: 35,
+                                      ),
                               ),
                             ),
                             SizedBox(height: 20),
@@ -119,6 +134,7 @@ class MyDrawer extends StatelessWidget {
                                 SharedPreferences sharedPreferences =
                                     await SharedPreferences.getInstance();
                                 sharedPreferences.clear();
+                                firebaseAuth.signOut();
                                 Phoenix.rebirth(context);
                               },
                               child: Container(

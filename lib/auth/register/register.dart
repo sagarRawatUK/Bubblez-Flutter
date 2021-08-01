@@ -93,6 +93,7 @@ class Register extends StatelessWidget {
               SizedBox(height: 20),
 
               TextField(
+                obscureText: true,
                 controller: _passwordController,
                 decoration: InputDecoration(
                   hintText: "Password",
@@ -102,6 +103,7 @@ class Register extends StatelessWidget {
               ),
               SizedBox(height: 20),
               TextField(
+                keyboardType: TextInputType.number,
                 controller: _phoneNumberController,
                 decoration: InputDecoration(
                   hintText: "Phone Number",
@@ -115,6 +117,8 @@ class Register extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   if (_emailController.text.isNotEmpty &&
+                      RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(_emailController.text) &&
                       _fullNameController.text.isNotEmpty &&
                       _passwordController.text.isNotEmpty &&
                       _phoneNumberController.text.isNotEmpty) {
@@ -143,7 +147,7 @@ class Register extends StatelessWidget {
                               builder: (context) => HomeScreen()));
                     });
                   } else {
-                    warningText(context, 'Fill all the data!');
+                    warningText(context, 'Fill all the valid Data !');
                   }
                 },
                 child: Container(
